@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine's Day 💖 SARGAM JII</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Reset */
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+  }
+
+  /* Glowing headline */
+  h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 4rem;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px #ff6b81, 0 0 30px #ff6b81;
+    animation: glow 2s infinite alternate;
+  }
+
+  @keyframes glow {
+    0% { text-shadow: 0 0 20px #ff6b81,0 0 30px #ff6b81; }
+    50% { text-shadow: 0 0 30px #ff3d6b,0 0 40px #ff3d6b; }
+    100% { text-shadow: 0 0 20px #ff6b81,0 0 30px #ff6b81; }
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px #fff;
+  }
+
+  /* Neon Button */
+  .neon-btn {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    color: #fff;
+    background: linear-gradient(90deg, #ff5f6d, #ffc371);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-shadow: 0 0 10px #fff;
+    box-shadow: 0 0 20px #ff5f6d, 0 0 40px #ffc371;
+    transition: 0.3s;
+    animation: neonPulse 1.5s infinite alternate;
+  }
+
+  .neon-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px #ff5f6d, 0 0 60px #ffc371;
+  }
+
+  @keyframes neonPulse {
+    0% { box-shadow: 0 0 20px #ff5f6d, 0 0 40px #ffc371; }
+    100% { box-shadow: 0 0 40px #ff5f6d, 0 0 80px #ffc371; }
+  }
+
+  /* Falling petals */
+  .petal {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: pink;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: fall linear infinite;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-50px) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+  }
+
+  /* Secret Message */
+  #secret {
+    display: none;
+    font-size: 2rem;
+    margin-top: 20px;
+    color: #fff;
+    text-shadow: 0 0 20px #ff6b81;
+    font-family: 'Pacifico', cursive;
+  }
+</style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="https://files.catbox.moe/zlzuir.mp3" type="audio/mpeg">
+  </audio>
+
+  <h1>Happy Valentine's Day 💖</h1>
+  <p>For My Beloved <strong>SARGAM JII 💞</strong></p>
+
+  <button class="neon-btn" onclick="revealMessage()">Click to Reveal Your Love 💌</button>
+  <div id="secret">You Are My Heart, My Soul, My Everything! ❤️</div>
+
+  <!-- Petals Container -->
+  <div id="petals"></div>
+
+<script>
+  // Create falling petals
+  const petalsContainer = document.getElementById('petals');
+  function createPetal() {
+    const petal = document.createElement('div');
+    petal.classList.add('petal');
+    petal.style.left = Math.random() * window.innerWidth + 'px';
+    petal.style.width = 10 + Math.random() * 20 + 'px';
+    petal.style.height = petal.style.width;
+    petal.style.animationDuration = 3 + Math.random() * 5 + 's';
+    petal.style.opacity = Math.random();
+    petalsContainer.appendChild(petal);
+    setTimeout(() => { petal.remove(); }, 8000);
+  }
+  setInterval(createPetal, 200);
+
+  // Reveal secret message
+  function revealMessage() {
+    document.getElementById('secret').style.display = 'block';
+  }
+</script>
+</body>
+</html>
