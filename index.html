@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Valentine’s Surprise 💖 SARGAM JII</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body {
@@ -75,29 +75,30 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
   position:fixed; top:50%; left:50%;
   transform:translate(-50%,-50%) scale(0);
   background:rgba(255,182,193,0.95);
-  padding:40px 60px;
+  padding:50px 70px;
   border-radius:25px;
   box-shadow:0 0 50px #ff7eb3,0 0 100px #ff92a3;
   z-index:999;
   text-align:center;
-  animation: popupFade 1s forwards;
-}
-@keyframes popupFade{
-  0%{opacity:0; transform:translate(-50%,-50%) scale(0);}
-  100%{opacity:1; transform:translate(-50%,-50%) scale(1);}
+  overflow:hidden;
 }
 #popup h2{
-  font-family:'Great Vibes', cursive;
-  font-size:2.5rem;
+  font-family:'Dancing Script', cursive;
+  font-size:3rem;
   color:#fff;
   line-height:1.4;
-  text-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3;
+  text-shadow:0 0 25px #ff7eb3,0 0 50px #ff92a3;
 }
-@media(max-width:600px){
-  h1{font-size:2rem;}
-  #popup h2{font-size:2rem;}
-  #typed{font-size:1.2rem;}
+
+/* Light beams */
+#leftLight, #rightLight{
+  position:fixed; top:0; width:50%; height:100%;
+  background:rgba(255,255,255,0.1); pointer-events:none;
+  transform:scaleX(0); opacity:0;
+  z-index:998;
 }
+#leftLight{left:0; transform-origin:left;}
+#rightLight{right:0; transform-origin:right;}
 </style>
 </head>
 <body>
@@ -131,6 +132,8 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
 <div id="hearts"></div>
 
 <div id="popup"><h2 id="finalMsg"></h2></div>
+<div id="leftLight"></div>
+<div id="rightLight"></div>
 
 <script>
 // START button triggers song + first question
@@ -159,7 +162,6 @@ function nextQuestion(isYes){
   if(document.getElementById('q'+nextId)){
     showQuestion(nextId);
   } else {
-    // Last question done → show popup
     setTimeout(showFinalPopup,500);
   }
 }
@@ -181,7 +183,7 @@ function typeMessage(msg, el){
   const interval=setInterval(()=>{
     el.innerHTML+=msg[i]; i++;
     if(i>=msg.length) clearInterval(interval);
-  },100); // slow typing
+  },100);
 }
 
 // Yes clicked → confetti & hearts
@@ -194,15 +196,26 @@ function createConfetti(){ const c=document.createElement('div'); c.classList.ad
 function createHeartExplosion(){ const h=document.createElement('div'); h.classList.add('heart'); h.style.left=window.innerWidth/2+(Math.random()*80-40)+'px'; h.style.top=window.innerHeight/2+(Math.random()*80-40)+'px'; h.style.width=8+Math.random()*10+'px'; h.style.height=h.style.width; document.body.appendChild(h); setTimeout(()=>h.remove(),1500);}
 function createSparkle(){ const s=document.createElement('div'); s.classList.add('sparkle'); s.style.left=Math.random()*window.innerWidth+'px'; s.style.top=Math.random()*window.innerHeight+'px'; s.style.width=3+Math.random()*4+'px'; s.style.height=s.style.width; document.body.appendChild(s); setTimeout(()=>s.remove(),800);}
 
-// Final popup
+// Final popup with lights + poppers
 function showFinalPopup(){
   const popup = document.getElementById('popup');
   const finalMsg = document.getElementById('finalMsg');
+  const leftLight = document.getElementById('leftLight');
+  const rightLight = document.getElementById('rightLight');
+
+  // Animate lights
+  leftLight.style.transition='1s'; rightLight.style.transition='1s';
+  leftLight.style.transform='scaleX(1)'; leftLight.style.opacity='0.2';
+  rightLight.style.transform='scaleX(1)'; rightLight.style.opacity='0.2';
+
+  // Show popup
   popup.style.display='block';
+  popup.style.transition='1s';
+  popup.style.transform='translate(-50%,-50%) scale(1)';
   typeMessage('I Love You SARGAM JII 💖', finalMsg);
 
-  // Extra particles when popup opens
-  for(let i=0;i<100;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
+  // Popper confetti
+  for(let i=0;i<120;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
 }
 </script>
 </body>
