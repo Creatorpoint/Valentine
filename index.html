@@ -21,7 +21,6 @@ body {
 h1 {
   font-family:'Great Vibes', cursive;
   font-size:3rem; margin-bottom:20px;
-  position:relative; z-index:2;
   color:#fff; text-shadow:0 0 15px #ff7eb3,0 0 30px #ff92a3;
   animation: glowHeadline 2s infinite alternate;
 }
@@ -67,25 +66,37 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
 }
 .answer-btn:hover{ transform:scale(1.05); box-shadow:0 0 25px #ff92a3; }
 
-/* Secret message */
+/* Secret message typing */
 #typed { font-size:1.5rem; margin-top:20px; font-family:'Great Vibes', cursive; color:#fff; text-shadow:0 0 15px #ff92a3; }
 
 /* Popup at the end */
 #popup{
   display:none;
   position:fixed; top:50%; left:50%;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%,-50%) scale(0);
   background:rgba(255,182,193,0.95);
-  padding:30px 50px;
+  padding:40px 60px;
   border-radius:25px;
   box-shadow:0 0 50px #ff7eb3,0 0 100px #ff92a3;
   z-index:999;
   text-align:center;
+  animation: popupFade 1s forwards;
+}
+@keyframes popupFade{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(0);}
+  100%{opacity:1; transform:translate(-50%,-50%) scale(1);}
 }
 #popup h2{
   font-family:'Great Vibes', cursive;
-  font-size:3rem; color:#fff;
+  font-size:2.5rem;
+  color:#fff;
+  line-height:1.4;
   text-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3;
+}
+@media(max-width:600px){
+  h1{font-size:2rem;}
+  #popup h2{font-size:2rem;}
+  #typed{font-size:1.2rem;}
 }
 </style>
 </head>
@@ -118,6 +129,7 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
 <div id="typed"></div>
 <div id="petals"></div>
 <div id="hearts"></div>
+
 <div id="popup"><h2 id="finalMsg"></h2></div>
 
 <script>
@@ -148,11 +160,11 @@ function nextQuestion(isYes){
     showQuestion(nextId);
   } else {
     // Last question done → show popup
-    showFinalPopup();
+    setTimeout(showFinalPopup,500);
   }
 }
 
-// Petals & hearts animations
+// Petals & hearts
 const petalsContainer = document.getElementById('petals');
 function createPetal(){ const petal=document.createElement('div'); petal.classList.add('petal'); petal.style.left=Math.random()*window.innerWidth+'px'; petal.style.width=8+Math.random()*10+'px'; petal.style.height=petal.style.width; petal.style.animationDuration=4+Math.random()*4+'s'; petal.style.opacity=Math.random(); petalsContainer.appendChild(petal); setTimeout(()=>petal.remove(),7000);}
 setInterval(createPetal,300);
@@ -169,7 +181,7 @@ function typeMessage(msg, el){
   const interval=setInterval(()=>{
     el.innerHTML+=msg[i]; i++;
     if(i>=msg.length) clearInterval(interval);
-  },50);
+  },100); // slow typing
 }
 
 // Yes clicked → confetti & hearts
@@ -188,7 +200,9 @@ function showFinalPopup(){
   const finalMsg = document.getElementById('finalMsg');
   popup.style.display='block';
   typeMessage('I Love You SARGAM JII 💖', finalMsg);
-  for(let i=0;i<80;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
+
+  // Extra particles when popup opens
+  for(let i=0;i<100;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
 }
 </script>
 </body>
