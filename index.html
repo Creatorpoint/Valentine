@@ -13,7 +13,8 @@ body {
   display:flex; flex-direction:column;
   justify-content:center; align-items:center;
   text-align:center; color:#fff; position:relative;
-  background: linear-gradient(160deg,#ffdde1,#ee9ca7);
+  background: linear-gradient(160deg,#ff9a9e,#fecfef);
+  transition: background 1s;
 }
 
 /* Headline */
@@ -21,13 +22,13 @@ h1 {
   font-family:'Great Vibes', cursive;
   font-size:3rem; margin-bottom:20px;
   position:relative; z-index:2;
-  color:#fff; text-shadow:0 0 15px #ff6b81,0 0 30px #ff92a3;
+  color:#fff; text-shadow:0 0 15px #ff7eb3,0 0 30px #ff92a3;
   animation: glowHeadline 2s infinite alternate;
 }
 @keyframes glowHeadline{
-  0% {text-shadow:0 0 15px #ff6b81,0 0 30px #ff92a3;}
+  0% {text-shadow:0 0 15px #ff7eb3,0 0 30px #ff92a3;}
   50% {text-shadow:0 0 25px #ff3d6b,0 0 40px #ff6b81;}
-  100% {text-shadow:0 0 15px #ff6b81,0 0 30px #ff92a3;}
+  100% {text-shadow:0 0 15px #ff7eb3,0 0 30px #ff92a3;}
 }
 
 /* Paragraph */
@@ -36,13 +37,13 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
 /* Neon button */
 .neon-btn{
   padding:12px 35px; font-size:1.2rem; font-weight:600;
-  color:#fff; background:linear-gradient(90deg,#ff758c,#ff7eb3);
+  color:#fff; background:linear-gradient(90deg,#ff7eb3,#ff758c);
   border:none; border-radius:50px; cursor:pointer;
-  box-shadow:0 0 20px #ff758c,0 0 40px #ff7eb3; transition:0.3s;
+  box-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3; transition:0.3s;
 }
 .neon-btn:hover{
   transform:scale(1.05);
-  box-shadow:0 0 35px #ff758c,0 0 60px #ff7eb3;
+  box-shadow:0 0 35px #ff7eb3,0 0 60px #ff92a3;
 }
 
 /* Petals & hearts */
@@ -55,26 +56,37 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
 .heart::before{top:-6px; left:0;} .heart::after{top:0; left:6px;}
 @keyframes fall{0%{transform:translateY(-50px) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
 
-/* Secret message */
-#secret { display:none; font-size:1.5rem; margin-top:15px; font-family:'Great Vibes', cursive; color:#fff; text-shadow:0 0 15px #ff6b81; }
-
 /* Questions */
 #questions { display:none; margin-top:20px; }
 .question { margin:12px 0; font-size:1.1rem; display:none; }
 .answer-btn{
   padding:8px 20px; margin:4px;
   border:none; border-radius:25px;
-  background:#ff758c; color:#fff; cursor:pointer;
-  box-shadow:0 0 12px #ff758c; transition:0.3s;
+  background:#ff7eb3; color:#fff; cursor:pointer;
+  box-shadow:0 0 12px #ff7eb3; transition:0.3s;
 }
 .answer-btn:hover{ transform:scale(1.05); box-shadow:0 0 25px #ff92a3; }
 
-/* Confetti & sparkle */
-.confetti{ position:absolute; width:8px; height:8px; opacity:0.8; transform: rotate(45deg); }
-.sparkle{ position:absolute; width:4px; height:4px; border-radius:50%; background:#fff; opacity:0.9; box-shadow:0 0 8px #fff; }
+/* Secret message */
+#typed { font-size:1.5rem; margin-top:20px; font-family:'Great Vibes', cursive; color:#fff; text-shadow:0 0 15px #ff92a3; }
 
-/* Typing effect */
-#typed { font-size:1.3rem; color:#fff; text-shadow:0 0 15px #ff92a3; margin-top:12px; font-family:'Great Vibes', cursive; }
+/* Popup at the end */
+#popup{
+  display:none;
+  position:fixed; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  background:rgba(255,182,193,0.95);
+  padding:30px 50px;
+  border-radius:25px;
+  box-shadow:0 0 50px #ff7eb3,0 0 100px #ff92a3;
+  z-index:999;
+  text-align:center;
+}
+#popup h2{
+  font-family:'Great Vibes', cursive;
+  font-size:3rem; color:#fff;
+  text-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3;
+}
 </style>
 </head>
 <body>
@@ -82,15 +94,12 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
 <h1>Happy Valentine's Day 💖</h1>
 <p>For My Beloved <strong>SARGAM JII 💞</strong></p>
 
-<!-- START BUTTON -->
 <button class="neon-btn" id="startBtn">Tap to Start Your Surprise 💌</button>
 
-<!-- Hidden audio -->
 <audio id="valentineSong" loop style="display:none;">
   <source src="https://files.catbox.moe/zlzuir.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Questions -->
 <div id="questions">
   <div class="question" id="q1">Do you love me? 💖
     <div>
@@ -98,7 +107,6 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
       <button class="answer-btn" onclick="nextQuestion(false)">No 😢</button>
     </div>
   </div>
-
   <div class="question" id="q2">Will you be mine forever? 💞
     <div>
       <button class="answer-btn" onclick="nextQuestion(true)">Yes 💖</button>
@@ -107,11 +115,10 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; }
   </div>
 </div>
 
-<div id="secret"></div>
 <div id="typed"></div>
 <div id="petals"></div>
 <div id="hearts"></div>
-<div id="confetti"></div>
+<div id="popup"><h2 id="finalMsg"></h2></div>
 
 <script>
 // START button triggers song + first question
@@ -122,71 +129,67 @@ document.getElementById('startBtn').addEventListener('click', function(){
   showQuestion(1);
 });
 
-// Sequential questions logic
+// Sequential questions
 function showQuestion(num){
   const q = document.getElementById('q'+num);
   if(q) q.style.display='block';
 }
 
-// Handle answer
 function nextQuestion(isYes){
-  const current = thisEventTarget(event).closest('.question');
+  const btn = event.target;
+  const current = btn.closest('.question');
   const nextId = parseInt(current.id.replace('q',''))+1;
   current.style.display='none';
-  
-  if(isYes){
-    yesClicked();
-  } else {
-    showSecret('Hmm... 💌');
-  }
 
-  showQuestion(nextId);
+  if(isYes) yesClicked();
+  else showSecret('Hmm... 💌');
+
+  if(document.getElementById('q'+nextId)){
+    showQuestion(nextId);
+  } else {
+    // Last question done → show popup
+    showFinalPopup();
+  }
 }
 
-// Helper to get event target (works for button click)
-function thisEventTarget(e){ return e.target || e.srcElement; }
-
-// Petals
+// Petals & hearts animations
 const petalsContainer = document.getElementById('petals');
-function createPetal(){ const petal = document.createElement('div'); petal.classList.add('petal'); petal.style.left=Math.random()*window.innerWidth+'px'; petal.style.width=8+Math.random()*10+'px'; petal.style.height=petal.style.width; petal.style.animationDuration=4+Math.random()*4+'s'; petal.style.opacity=Math.random(); petalsContainer.appendChild(petal); setTimeout(()=>petal.remove(),7000); }
+function createPetal(){ const petal=document.createElement('div'); petal.classList.add('petal'); petal.style.left=Math.random()*window.innerWidth+'px'; petal.style.width=8+Math.random()*10+'px'; petal.style.height=petal.style.width; petal.style.animationDuration=4+Math.random()*4+'s'; petal.style.opacity=Math.random(); petalsContainer.appendChild(petal); setTimeout(()=>petal.remove(),7000);}
 setInterval(createPetal,300);
 
-// Floating hearts
 const heartsContainer = document.getElementById('hearts');
-function createHeart(){ const heart = document.createElement('div'); heart.classList.add('heart'); heart.style.left=Math.random()*window.innerWidth+'px'; heart.style.width=8+Math.random()*10+'px'; heart.style.height=heart.style.width; heart.style.animationDuration=4+Math.random()*5+'s'; heartsContainer.appendChild(heart); setTimeout(()=>heart.remove(),7000); }
+function createHeart(){ const heart=document.createElement('div'); heart.classList.add('heart'); heart.style.left=Math.random()*window.innerWidth+'px'; heart.style.width=8+Math.random()*10+'px'; heart.style.height=heart.style.width; heart.style.animationDuration=4+Math.random()*5+'s'; heartsContainer.appendChild(heart); setTimeout(()=>heart.remove(),7000);}
 setInterval(createHeart,400);
 
-// Reveal secret message
-function showSecret(message){
-  const secret = document.getElementById('secret');
-  secret.innerHTML=''; secret.style.display='block';
-  typeMessage(message, document.getElementById('typed'));
-}
+// Secret message typing
+function showSecret(msg){ typeMessage(msg, document.getElementById('typed')); }
 
-// Typing effect
-function typeMessage(message, element){
-  element.innerHTML='';
-  let i=0;
+function typeMessage(msg, el){
+  el.innerHTML=''; let i=0;
   const interval=setInterval(()=>{
-    element.innerHTML+=message[i]; i++;
-    if(i>=message.length) clearInterval(interval);
+    el.innerHTML+=msg[i]; i++;
+    if(i>=msg.length) clearInterval(interval);
   },50);
 }
 
-// Yes clicked
+// Yes clicked → confetti & hearts
 function yesClicked(){
   showSecret('Yay! I love you too! ❤️');
   for(let i=0;i<50;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
 }
 
-// Confetti
-function createConfetti(){ const c=document.createElement('div'); c.classList.add('confetti'); c.style.left=Math.random()*window.innerWidth+'px'; c.style.background=['#ffdde1','#ee9ca7','#ffc0cb','#ff6b81'][Math.floor(Math.random()*4)]; c.style.top='-10px'; c.style.width=5+Math.random()*8+'px'; c.style.height=c.style.width; c.style.opacity=Math.random(); document.body.appendChild(c); const fall=setInterval(()=>{ let top=parseFloat(c.style.top); if(top>window.innerHeight){c.remove(); clearInterval(fall);} else c.style.top=(top+3+Math.random()*3)+'px'; },20); }
+function createConfetti(){ const c=document.createElement('div'); c.classList.add('confetti'); c.style.left=Math.random()*window.innerWidth+'px'; c.style.background=['#ffdde1','#ffc0cb','#ff7eb3','#ff92a3'][Math.floor(Math.random()*4)]; c.style.top='-10px'; c.style.width=5+Math.random()*8+'px'; c.style.height=c.style.width; c.style.opacity=Math.random(); document.body.appendChild(c); const fall=setInterval(()=>{ let top=parseFloat(c.style.top); if(top>window.innerHeight){c.remove(); clearInterval(fall);} else c.style.top=(top+3+Math.random()*3)+'px';},20);}
+function createHeartExplosion(){ const h=document.createElement('div'); h.classList.add('heart'); h.style.left=window.innerWidth/2+(Math.random()*80-40)+'px'; h.style.top=window.innerHeight/2+(Math.random()*80-40)+'px'; h.style.width=8+Math.random()*10+'px'; h.style.height=h.style.width; document.body.appendChild(h); setTimeout(()=>h.remove(),1500);}
+function createSparkle(){ const s=document.createElement('div'); s.classList.add('sparkle'); s.style.left=Math.random()*window.innerWidth+'px'; s.style.top=Math.random()*window.innerHeight+'px'; s.style.width=3+Math.random()*4+'px'; s.style.height=s.style.width; document.body.appendChild(s); setTimeout(()=>s.remove(),800);}
 
-// Heart explosion
-function createHeartExplosion(){ const h=document.createElement('div'); h.classList.add('heart'); h.style.left=window.innerWidth/2+(Math.random()*80-40)+'px'; h.style.top=window.innerHeight/2+(Math.random()*80-40)+'px'; h.style.width=8+Math.random()*10+'px'; h.style.height=h.style.width; document.body.appendChild(h); setTimeout(()=>h.remove(),1500); }
-
-// Sparkle
-function createSparkle(){ const s=document.createElement('div'); s.classList.add('sparkle'); s.style.left=Math.random()*window.innerWidth+'px'; s.style.top=Math.random()*window.innerHeight+'px'; s.style.width=3+Math.random()*4+'px'; s.style.height=s.style.width; document.body.appendChild(s); setTimeout(()=>s.remove(),800); }
+// Final popup
+function showFinalPopup(){
+  const popup = document.getElementById('popup');
+  const finalMsg = document.getElementById('finalMsg');
+  popup.style.display='block';
+  typeMessage('I Love You SARGAM JII 💖', finalMsg);
+  for(let i=0;i<80;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
+}
 </script>
 </body>
 </html>
