@@ -13,18 +13,7 @@ body {
   display:flex; flex-direction:column;
   justify-content:center; align-items:center;
   text-align:center; color:#fff; position:relative;
-  background: linear-gradient(160deg,#ff85a2,#da70d6);
-  transition: background 2s;
-}
-
-/* Bokeh glow circles */
-.bokeh{
-  position:absolute; border-radius:50%; background:rgba(255,255,255,0.15);
-  filter: blur(20px); animation:bokehMove linear infinite;
-}
-@keyframes bokehMove{
-  0%{transform:translateY(0);}
-  100%{transform:translateY(120vh);}
+  background: linear-gradient(160deg,#ff9a9e,#fecfef);
 }
 
 /* Headline */
@@ -40,10 +29,7 @@ h1 {
   100% {text-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3;}
 }
 
-/* Paragraph */
-p { font-size:1.2rem; margin-bottom:20px; color:#fff; text-shadow:0 0 10px #ff92a3; }
-
-/* Glassy neon button */
+/* Glassy button */
 .neon-btn{
   padding:14px 40px; font-size:1.3rem; font-weight:600;
   color:#fff; background:rgba(255,255,255,0.1);
@@ -56,7 +42,7 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; text-shadow:0 0 10px #ff92
   box-shadow:0 0 35px #ff7eb3,0 0 60px #ff92a3;
 }
 
-/* Questions UI */
+/* Questions */
 #questions { display:none; margin-top:20px; }
 .question { margin:12px 0; font-size:1.2rem; display:none; padding:15px 25px; border-radius:20px; background:rgba(255,255,255,0.15); box-shadow:0 0 15px #ff7eb3; }
 .answer-btn{
@@ -67,10 +53,7 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; text-shadow:0 0 10px #ff92
 }
 .answer-btn:hover{ transform:scale(1.05); box-shadow:0 0 30px #ff92a3; }
 
-/* Secret message typing */
-#typed { font-size:1.6rem; margin-top:20px; font-family:'Great Vibes', cursive; color:#fff; text-shadow:0 0 20px #ff92a3; }
-
-/* Popup at the end */
+/* Popup */
 #popup{
   display:none; position:fixed; top:50%; left:50%;
   transform:translate(-50%,-50%) scale(0);
@@ -81,13 +64,13 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; text-shadow:0 0 10px #ff92
 }
 #popup h2{
   font-family:'Dancing Script', cursive;
-  font-size:3.2rem;
+  font-size:3rem;
   color:#fff;
   line-height:1.4;
   text-shadow:0 0 25px #ff7eb3,0 0 50px #ff92a3;
 }
 
-/* Lights for popup */
+/* Lights */
 #leftLight, #rightLight{
   position:fixed; top:0; width:50%; height:100%;
   background:rgba(255,255,255,0.08); pointer-events:none;
@@ -124,68 +107,40 @@ p { font-size:1.2rem; margin-bottom:20px; color:#fff; text-shadow:0 0 10px #ff92
 </div>
 
 <div id="typed"></div>
-<div id="petals"></div>
-<div id="hearts"></div>
-
 <div id="popup"><h2 id="finalMsg"></h2></div>
 <div id="leftLight"></div>
 <div id="rightLight"></div>
 
 <script>
-// START button triggers song + first question
-document.getElementById('startBtn').addEventListener('click', function(){
+// START
+document.getElementById('startBtn').addEventListener('click', ()=>{
   document.getElementById('valentineSong').play().catch(()=>{});
-  this.style.display='none';
+  document.getElementById('startBtn').style.display='none';
   document.getElementById('questions').style.display='block';
   showQuestion(1);
 });
 
-// Sequential questions
+// Questions
 function showQuestion(num){
-  const q = document.getElementById('q'+num);
+  const q=document.getElementById('q'+num);
   if(q) q.style.display='block';
 }
-
 function nextQuestion(isYes){
-  const btn = event.target;
-  const current = btn.closest('.question');
-  const nextId = parseInt(current.id.replace('q',''))+1;
+  const btn=event.target;
+  const current=btn.closest('.question');
+  const nextId=parseInt(current.id.replace('q',''))+1;
   current.style.display='none';
 
   if(isYes) yesClicked();
   else showSecret('Hmm... 💌');
 
-  if(document.getElementById('q'+nextId)){
-    showQuestion(nextId);
-  } else {
-    setTimeout(showFinalPopup,500);
-  }
+  if(document.getElementById('q'+nextId)) showQuestion(nextId);
+  else setTimeout(showFinalPopup,500);
 }
 
-// Bokeh circles background
-for(let i=0;i<25;i++){
-  const b=document.createElement('div');
-  b.classList.add('bokeh');
-  b.style.width=20+Math.random()*40+'px';
-  b.style.height=b.style.width;
-  b.style.left=Math.random()*window.innerWidth+'px';
-  b.style.top=Math.random()*window.innerHeight+'px';
-  b.style.animationDuration=10+Math.random()*10+'s';
-  document.body.appendChild(b);
-}
-
-// Petals & hearts
-const petalsContainer = document.getElementById('petals');
-function createPetal(){ const petal=document.createElement('div'); petal.classList.add('petal'); petal.style.left=Math.random()*window.innerWidth+'px'; petal.style.width=8+Math.random()*10+'px'; petal.style.height=petal.style.width; petal.style.animationDuration=4+Math.random()*4+'s'; petal.style.opacity=Math.random(); petalsContainer.appendChild(petal); setTimeout(()=>petal.remove(),7000);}
-setInterval(createPetal,300);
-
-const heartsContainer = document.getElementById('hearts');
-function createHeart(){ const heart=document.createElement('div'); heart.classList.add('heart'); heart.style.left=Math.random()*window.innerWidth+'px'; heart.style.width=8+Math.random()*10+'px'; heart.style.height=heart.style.width; heart.style.animationDuration=4+Math.random()*5+'s'; heartsContainer.appendChild(heart); setTimeout(()=>heart.remove(),7000);}
-setInterval(createHeart,400);
-
-// Secret message typing
-function showSecret(msg){ typeMessage(msg, document.getElementById('typed')); }
-function typeMessage(msg, el){
+// Typing
+function showSecret(msg){ typeMessage(msg,document.getElementById('typed')); }
+function typeMessage(msg,el){
   el.innerHTML=''; let i=0;
   const interval=setInterval(()=>{
     el.innerHTML+=msg[i]; i++;
@@ -193,33 +148,66 @@ function typeMessage(msg, el){
   },100);
 }
 
-// Yes clicked → confetti & hearts
+// Effects
 function yesClicked(){
   showSecret('Yay! I love you too! ❤️');
-  for(let i=0;i<50;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
+  for(let i=0;i<50;i++){ createConfetti(); createHeartExplosion(); }
 }
 
-function createConfetti(){ const c=document.createElement('div'); c.classList.add('confetti'); c.style.left=Math.random()*window.innerWidth+'px'; c.style.background=['#ffdde1','#ffc0cb','#ff7eb3','#ff92a3'][Math.floor(Math.random()*4)]; c.style.top='-10px'; c.style.width=5+Math.random()*8+'px'; c.style.height=c.style.width; c.style.opacity=Math.random(); document.body.appendChild(c); const fall=setInterval(()=>{ let top=parseFloat(c.style.top); if(top>window.innerHeight){c.remove(); clearInterval(fall);} else c.style.top=(top+3+Math.random()*3)+'px';},20);}
-function createHeartExplosion(){ const h=document.createElement('div'); h.classList.add('heart'); h.style.left=window.innerWidth/2+(Math.random()*80-40)+'px'; h.style.top=window.innerHeight/2+(Math.random()*80-40)+'px'; h.style.width=8+Math.random()*10+'px'; h.style.height=h.style.width; document.body.appendChild(h); setTimeout(()=>h.remove(),1500);}
-function createSparkle(){ const s=document.createElement('div'); s.classList.add('sparkle'); s.style.left=Math.random()*window.innerWidth+'px'; s.style.top=Math.random()*window.innerHeight+'px'; s.style.width=3+Math.random()*4+'px'; s.style.height=s.style.width; document.body.appendChild(s); setTimeout(()=>s.remove(),800);}
+function createConfetti(){
+  const c=document.createElement('div');
+  c.style.position='absolute';
+  c.style.width=5+Math.random()*8+'px';
+  c.style.height=c.style.width;
+  c.style.background=['#ffdde1','#ffc0cb','#ff7eb3','#ff92a3'][Math.floor(Math.random()*4)];
+  c.style.left=Math.random()*window.innerWidth+'px';
+  c.style.top='-10px';
+  c.style.opacity=Math.random();
+  document.body.appendChild(c);
+  let fall=setInterval(()=>{
+    let top=parseFloat(c.style.top);
+    if(top>window.innerHeight){c.remove(); clearInterval(fall);}
+    else c.style.top=(top+3+Math.random()*3)+'px';
+  },20);
+}
+function createHeartExplosion(){
+  const h=document.createElement('div');
+  h.style.position='absolute';
+  h.style.width=8+Math.random()*10+'px';
+  h.style.height=h.style.width;
+  h.style.background='#ff6b81';
+  h.style.left=window.innerWidth/2+(Math.random()*100-50)+'px';
+  h.style.top=window.innerHeight/2+(Math.random()*100-50)+'px';
+  h.style.transform='rotate(-45deg)';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),1500);
+}
 
-// Final popup with lights + poppers
+// Final popup
 function showFinalPopup(){
-  const popup = document.getElementById('popup');
-  const finalMsg = document.getElementById('finalMsg');
-  const leftLight = document.getElementById('leftLight');
-  const rightLight = document.getElementById('rightLight');
+  const popup=document.getElementById('popup');
+  const finalMsg=document.getElementById('finalMsg');
+  const leftLight=document.getElementById('leftLight');
+  const rightLight=document.getElementById('rightLight');
 
+  // Lights animation
   leftLight.style.transition='1s'; rightLight.style.transition='1s';
   leftLight.style.transform='scaleX(1)'; leftLight.style.opacity='0.2';
   rightLight.style.transform='scaleX(1)'; rightLight.style.opacity='0.2';
 
+  // Show popup
   popup.style.display='block';
   popup.style.transition='1s';
   popup.style.transform='translate(-50%,-50%) scale(1)';
-  typeMessage('I Love You SARGAM JII 💖', finalMsg);
 
-  for(let i=0;i<120;i++){ createConfetti(); createHeartExplosion(); createSparkle(); }
+  // Typing + poppers triggered during typing
+  let msg='I Love You SARGAM JII 💖';
+  let i=0;
+  const interval=setInterval(()=>{
+    finalMsg.innerHTML+=msg[i]; i++;
+    createConfetti(); createHeartExplosion();
+    if(i>=msg.length) clearInterval(interval);
+  },120);
 }
 </script>
 </body>
