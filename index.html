@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentine’s Day Surprise 💖 SARGAM JII</title>
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<title>Valentine’s Surprise 💖 SARGAM JII</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
+
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   height:100vh;
   overflow:hidden;
-  background: linear-gradient(135deg,#ff9a9e,#fad0c4);
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -19,73 +19,82 @@ body {
   text-align:center;
   color:#fff;
   position:relative;
+  background: linear-gradient(160deg,#ffdde1,#ee9ca7);
 }
 
-/* Headline with floating hearts */
+/* Headline */
 h1 {
-  font-family:'Pacifico',cursive;
+  font-family:'Great Vibes', cursive;
   font-size:4rem;
   margin-bottom:20px;
   position:relative;
   z-index:2;
-  text-shadow:0 0 20px #ff6b81,0 0 30px #ff6b81;
-  animation: glow 2s infinite alternate;
+  color:#fff;
+  text-shadow:0 0 15px #ff6b81,0 0 30px #ff92a3;
+  animation: glowHeadline 2s infinite alternate;
 }
-@keyframes glow{
-  0% {text-shadow:0 0 20px #ff6b81,0 0 30px #ff6b81;}
-  50% {text-shadow:0 0 30px #ff3d6b,0 0 40px #ff3d6b;}
-  100% {text-shadow:0 0 20px #ff6b81,0 0 30px #ff6b81;}
+@keyframes glowHeadline{
+  0% {text-shadow:0 0 15px #ff6b81,0 0 30px #ff92a3;}
+  50% {text-shadow:0 0 25px #ff3d6b,0 0 40px #ff6b81;}
+  100% {text-shadow:0 0 15px #ff6b81,0 0 30px #ff92a3;}
 }
 
 /* Paragraph */
-p { font-size:1.5rem; margin-bottom:30px; text-shadow:0 0 10px #fff; }
+p { font-size:1.5rem; margin-bottom:30px; color:#fff; }
 
-/* Neon Button */
+/* Neon button */
 .neon-btn{
-  padding:15px 40px; font-size:1.5rem; color:#fff;
-  background:linear-gradient(90deg,#ff5f6d,#ffc371); border:none;
-  border-radius:50px; cursor:pointer; text-shadow:0 0 10px #fff;
-  box-shadow:0 0 20px #ff5f6d,0 0 40px #ffc371;
-  transition:0.3s; animation: neonPulse 1.5s infinite alternate; margin:10px;
+  padding:15px 45px;
+  font-size:1.5rem;
+  font-weight:600;
+  color:#fff;
+  background:linear-gradient(90deg,#ff758c,#ff7eb3);
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  box-shadow:0 0 25px #ff758c,0 0 50px #ff7eb3;
+  transition:0.3s;
+  animation: neonBtn 1.5s infinite alternate;
 }
 .neon-btn:hover{
   transform:scale(1.1);
-  box-shadow:0 0 40px #ff5f6d,0 0 60px #ffc371;
+  box-shadow:0 0 40px #ff758c,0 0 70px #ff7eb3;
 }
-@keyframes neonPulse{
-  0% {box-shadow:0 0 20px #ff5f6d,0 0 40px #ffc371;}
-  100% {box-shadow:0 0 40px #ff5f6d,0 0 80px #ffc371;}
+@keyframes neonBtn{
+  0%{ box-shadow:0 0 20px #ff758c,0 0 50px #ff7eb3; }
+  100%{ box-shadow:0 0 40px #ff758c,0 0 80px #ff7eb3; }
 }
 
 /* Petals & hearts */
 .petal, .heart{
-  position:absolute; border-radius:50%; opacity:0.8; animation:fall linear infinite;
+  position:absolute; border-radius:50%; opacity:0.85; animation:fall linear infinite;
 }
-.petal{ background:pink; width:15px; height:15px; }
-.heart{ background:#ff4d6d; transform:rotate(-45deg); width:15px; height:15px; }
-.heart::before, .heart::after{ content:""; position:absolute; width:15px; height:15px; background:#ff4d6d; border-radius:50%; }
-.heart::before{ top:-7.5px; left:0; }
-.heart::after{ top:0; left:7.5px; }
-@keyframes fall{ 0%{transform:translateY(-50px) rotate(0deg);} 100%{transform:translateY(110vh) rotate(360deg);} }
+.petal{ background: #ffc0cb; width:15px; height:15px; }
+.heart{ background: #ff6b81; transform:rotate(-45deg); width:15px; height:15px; }
+.heart::before,.heart::after{ content:""; position:absolute; width:15px; height:15px; background:#ff6b81; border-radius:50%; }
+.heart::before{top:-7.5px; left:0;} .heart::after{top:0; left:7.5px;}
+@keyframes fall{0%{transform:translateY(-50px) rotate(0deg);}100%{transform:translateY(110vh) rotate(360deg);}}
 
 /* Secret message */
-#secret {
-  display:none; font-size:2rem; margin-top:20px;
-  color:#fff; text-shadow:0 0 20px #ff6b81; font-family:'Pacifico',cursive;
-}
+#secret { display:none; font-size:2rem; margin-top:20px; font-family:'Great Vibes', cursive; color:#fff; text-shadow:0 0 15px #ff6b81; }
 
 /* Questions */
 #questions { display:none; margin-top:20px; }
 .question { margin:15px 0; font-size:1.3rem; }
-.answer-btn{ padding:10px 25px; margin:5px; border:none; border-radius:25px; background:#ff6b81; color:#fff; cursor:pointer; box-shadow:0 0 10px #ff6b81; transition:0.3s; }
-.answer-btn:hover{ transform:scale(1.1); box-shadow:0 0 20px #ff3d6b; }
+.answer-btn{
+  padding:10px 25px; margin:5px;
+  border:none; border-radius:25px;
+  background:#ff758c; color:#fff; cursor:pointer;
+  box-shadow:0 0 15px #ff758c; transition:0.3s;
+}
+.answer-btn:hover{ transform:scale(1.1); box-shadow:0 0 30px #ff92a3; }
 
-/* Confetti and sparkle */
+/* Confetti & sparkle */
 .confetti{ position:absolute; width:10px; height:10px; opacity:0.8; transform: rotate(45deg); }
 .sparkle{ position:absolute; width:5px; height:5px; border-radius:50%; background:#fff; opacity:0.9; box-shadow:0 0 10px #fff; }
 
 /* Typing effect */
-#typed { font-size:1.5rem; color:#fff; text-shadow:0 0 10px #ff6b81; margin-top:15px; font-family:'Pacifico',cursive; }
+#typed { font-size:1.5rem; color:#fff; text-shadow:0 0 15px #ff92a3; margin-top:15px; font-family:'Great Vibes', cursive; }
 </style>
 </head>
 <body>
@@ -123,9 +132,9 @@ function createPetal(){
   const petal = document.createElement('div');
   petal.classList.add('petal');
   petal.style.left=Math.random()*window.innerWidth+'px';
-  petal.style.width=10+Math.random()*20+'px';
+  petal.style.width=10+Math.random()*15+'px';
   petal.style.height=petal.style.width;
-  petal.style.animationDuration=3+Math.random()*5+'s';
+  petal.style.animationDuration=4+Math.random()*5+'s';
   petal.style.opacity=Math.random();
   petalsContainer.appendChild(petal);
   setTimeout(()=>petal.remove(),8000);
@@ -138,27 +147,13 @@ function createHeart(){
   const heart = document.createElement('div');
   heart.classList.add('heart');
   heart.style.left=Math.random()*window.innerWidth+'px';
-  heart.style.width=10+Math.random()*20+'px';
+  heart.style.width=10+Math.random()*15+'px';
   heart.style.height=heart.style.width;
   heart.style.animationDuration=4+Math.random()*6+'s';
   heartsContainer.appendChild(heart);
   setTimeout(()=>heart.remove(),8000);
 }
 setInterval(createHeart,300);
-
-// Hearts around headline
-const headlineHearts = document.getElementById('headline-hearts');
-function createHeadlineHeart(){
-  const h = document.createElement('div');
-  h.classList.add('heart');
-  h.style.left=window.innerWidth/2 + (Math.random()*200-100)+'px';
-  h.style.top=100 + (Math.random()*50-25)+'px';
-  h.style.width=10+Math.random()*15+'px';
-  h.style.height=h.style.width;
-  headlineHearts.appendChild(h);
-  setTimeout(()=>h.remove(),3000);
-}
-setInterval(createHeadlineHeart,400);
 
 // Reveal questions
 function revealQuestions(){ document.getElementById('questions').style.display='block'; }
@@ -193,7 +188,7 @@ function createConfetti(){
   const c=document.createElement('div');
   c.classList.add('confetti');
   c.style.left=Math.random()*window.innerWidth+'px';
-  c.style.background=['#ff0','#f0f','#0ff','#fff'][Math.floor(Math.random()*4)];
+  c.style.background=['#ffdde1','#ee9ca7','#ffc0cb','#ff6b81'][Math.floor(Math.random()*4)];
   c.style.top='-10px';
   c.style.width=5+Math.random()*10+'px';
   c.style.height=c.style.width;
