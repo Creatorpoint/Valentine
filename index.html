@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-body {
+body{
   font-family:'Poppins',sans-serif;
   height:100vh; overflow:hidden;
   display:flex; flex-direction:column;
@@ -17,11 +17,11 @@ body {
 }
 
 /* Headline */
-h1 {
-  font-family:'Great Vibes', cursive;
-  font-size:3rem; margin-bottom:20px;
-  color:#fff; text-shadow:0 0 20px #ff6b81,0 0 40px #ff92a3;
-  animation: glowHeadline 2s infinite alternate;
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:3rem;margin-bottom:20px;
+  color:#fff;text-shadow:0 0 20px #ff6b81,0 0 40px #ff92a3;
+  animation:glowHeadline 2s infinite alternate;
 }
 @keyframes glowHeadline{
   0% {text-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3;}
@@ -29,10 +29,10 @@ h1 {
   100% {text-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3;}
 }
 
-/* Glassy button */
+/* Button */
 .neon-btn{
-  padding:14px 40px; font-size:1.3rem; font-weight:600;
-  color:#fff; background:rgba(255,255,255,0.1);
+  padding:14px 40px;font-size:1.3rem;font-weight:600;
+  color:#fff;background:rgba(255,255,255,0.1);
   backdrop-filter:blur(10px); border:2px solid #ff7eb3;
   border-radius:50px; cursor:pointer;
   box-shadow:0 0 20px #ff7eb3,0 0 40px #ff92a3; transition:0.3s;
@@ -43,41 +43,34 @@ h1 {
 }
 
 /* Questions */
-#questions { display:none; margin-top:20px; }
-.question { margin:12px 0; font-size:1.2rem; display:none; padding:15px 25px; border-radius:20px; background:rgba(255,255,255,0.15); box-shadow:0 0 15px #ff7eb3; }
-.answer-btn{
-  padding:10px 25px; margin:5px;
-  border:none; border-radius:30px;
-  background:rgba(255,125,180,0.7); color:#fff; cursor:pointer;
-  box-shadow:0 0 15px #ff92a3; transition:0.3s;
-}
-.answer-btn:hover{ transform:scale(1.05); box-shadow:0 0 30px #ff92a3; }
+#questions{display:none;margin-top:20px;}
+.question{margin:12px 0;font-size:1.2rem;display:none;padding:15px 25px;border-radius:20px;background:rgba(255,255,255,0.15);box-shadow:0 0 15px #ff7eb3;}
+.answer-btn{padding:10px 25px;margin:5px;border:none;border-radius:30px;background:rgba(255,125,180,0.7);color:#fff;cursor:pointer;box-shadow:0 0 15px #ff92a3;transition:0.3s;}
+.answer-btn:hover{transform:scale(1.05);box-shadow:0 0 30px #ff92a3;}
 
 /* Popup */
 #popup{
-  display:none; position:fixed; top:50%; left:50%;
+  display:none;position:fixed;top:50%;left:50%;
   transform:translate(-50%,-50%) scale(0);
   background:rgba(255,182,193,0.95);
-  padding:60px 80px; border-radius:30px;
+  padding:60px 80px;border-radius:30px;
   box-shadow:0 0 50px #ff7eb3,0 0 100px #ff92a3; z-index:999;
-  text-align:center; overflow:hidden;
+  text-align:center;overflow:hidden;
 }
 #popup h2{
-  font-family:'Dancing Script', cursive;
-  font-size:3rem;
-  color:#fff;
-  line-height:1.4;
+  font-family:'Dancing Script',cursive;
+  font-size:3rem;color:#fff;line-height:1.4;
   text-shadow:0 0 25px #ff7eb3,0 0 50px #ff92a3;
 }
 
 /* Lights */
-#leftLight, #rightLight{
-  position:fixed; top:0; width:50%; height:100%;
-  background:rgba(255,255,255,0.08); pointer-events:none;
-  transform:scaleX(0); opacity:0; z-index:998;
+#leftLight,#rightLight{
+  position:fixed;top:0;width:50%;height:100%;
+  background:rgba(255,255,255,0.08);pointer-events:none;
+  transform:scaleX(0);opacity:0; z-index:998;
 }
-#leftLight{left:0; transform-origin:left;}
-#rightLight{right:0; transform-origin:right;}
+#leftLight{left:0;transform-origin:left;}
+#rightLight{right:0;transform-origin:right;}
 </style>
 </head>
 <body>
@@ -112,7 +105,7 @@ h1 {
 <div id="rightLight"></div>
 
 <script>
-// START
+// Start
 document.getElementById('startBtn').addEventListener('click', ()=>{
   document.getElementById('valentineSong').play().catch(()=>{});
   document.getElementById('startBtn').style.display='none';
@@ -143,21 +136,23 @@ function showSecret(msg){ typeMessage(msg,document.getElementById('typed')); }
 function typeMessage(msg,el){
   el.innerHTML=''; let i=0;
   const interval=setInterval(()=>{
-    el.innerHTML+=msg[i]; i++;
+    el.innerHTML+=msg[i]; 
+    // Trigger poppers every 2 chars
+    if(i%2===0) { createConfetti(); createHeartExplosion(); }
+    i++;
     if(i>=msg.length) clearInterval(interval);
-  },100);
+  },120);
 }
 
 // Effects
 function yesClicked(){
   showSecret('Yay! I love you too! ❤️');
-  for(let i=0;i<50;i++){ createConfetti(); createHeartExplosion(); }
 }
 
 function createConfetti(){
   const c=document.createElement('div');
   c.style.position='absolute';
-  c.style.width=5+Math.random()*8+'px';
+  c.style.width=5+Math.random()*6+'px';
   c.style.height=c.style.width;
   c.style.background=['#ffdde1','#ffc0cb','#ff7eb3','#ff92a3'][Math.floor(Math.random()*4)];
   c.style.left=Math.random()*window.innerWidth+'px';
@@ -167,20 +162,21 @@ function createConfetti(){
   let fall=setInterval(()=>{
     let top=parseFloat(c.style.top);
     if(top>window.innerHeight){c.remove(); clearInterval(fall);}
-    else c.style.top=(top+3+Math.random()*3)+'px';
-  },20);
+    else c.style.top=(top+2+Math.random()*2)+'px';
+  },15);
 }
+
 function createHeartExplosion(){
   const h=document.createElement('div');
   h.style.position='absolute';
-  h.style.width=8+Math.random()*10+'px';
+  h.style.width=8+Math.random()*8+'px';
   h.style.height=h.style.width;
   h.style.background='#ff6b81';
-  h.style.left=window.innerWidth/2+(Math.random()*100-50)+'px';
-  h.style.top=window.innerHeight/2+(Math.random()*100-50)+'px';
+  h.style.left=window.innerWidth/2+(Math.random()*80-40)+'px';
+  h.style.top=window.innerHeight/2+(Math.random()*80-40)+'px';
   h.style.transform='rotate(-45deg)';
   document.body.appendChild(h);
-  setTimeout(()=>h.remove(),1500);
+  setTimeout(()=>h.remove(),1000);
 }
 
 // Final popup
@@ -190,24 +186,16 @@ function showFinalPopup(){
   const leftLight=document.getElementById('leftLight');
   const rightLight=document.getElementById('rightLight');
 
-  // Lights animation
   leftLight.style.transition='1s'; rightLight.style.transition='1s';
   leftLight.style.transform='scaleX(1)'; leftLight.style.opacity='0.2';
   rightLight.style.transform='scaleX(1)'; rightLight.style.opacity='0.2';
 
-  // Show popup
   popup.style.display='block';
   popup.style.transition='1s';
   popup.style.transform='translate(-50%,-50%) scale(1)';
 
-  // Typing + poppers triggered during typing
-  let msg='I Love You SARGAM JII 💖';
-  let i=0;
-  const interval=setInterval(()=>{
-    finalMsg.innerHTML+=msg[i]; i++;
-    createConfetti(); createHeartExplosion();
-    if(i>=msg.length) clearInterval(interval);
-  },120);
+  // Typing + poppers already handled in typeMessage
+  typeMessage('I Love You SARGAM JII 💖', finalMsg);
 }
 </script>
 </body>
