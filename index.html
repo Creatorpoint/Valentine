@@ -17,7 +17,7 @@ body{
   overflow-x:hidden;
 }
 
-/* Floating hearts & petals */
+/* Floating hearts/petals */
 @keyframes floaty{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-600px) rotate(360deg);}}
 .heart,.petal{
   position:absolute; width:10px;height:10px;
@@ -81,8 +81,6 @@ h1{
 <body>
 
 <h1>Happy Valentine's Day 💖</h1>
-<p>For My Beloved <strong>SARGAM JII 💞</strong></p>
-
 <button class="neon-btn" id="startBtn">Tap to Start Your Surprise 💌</button>
 
 <audio id="valentineSong" loop style="display:none;">
@@ -101,7 +99,7 @@ document.getElementById('startBtn').addEventListener('click', ()=>{
   showFinalPopup();
 });
 
-// Create random floating hearts/petals
+// Floating hearts/petals
 function createFloating(){
   for(let i=0;i<15;i++){
     let h=document.createElement('div');
@@ -147,7 +145,7 @@ function createHeartExplosion(){
   setTimeout(()=>h.remove(),1000);
 }
 
-// Typing shayari + I Love You
+// Shayari + I Love You inside popup only
 let shayari = ["Tum meri duniya ho 💖","Har pal tumhari yaadon mein 🌸","I Love You SARGAM JII 💖"];
 let currentLine=0;
 
