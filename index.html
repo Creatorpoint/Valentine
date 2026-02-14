@@ -14,6 +14,15 @@ body{
   justify-content:center; align-items:center;
   text-align:center; color:#fff; position:relative;
   background: linear-gradient(160deg,#ff9a9e,#fecfef);
+  overflow-x:hidden;
+}
+
+/* Floating hearts & petals */
+@keyframes floaty{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-600px) rotate(360deg);}}
+.heart,.petal{
+  position:absolute; width:10px;height:10px;
+  background:red; border-radius:50%;opacity:0.7;
+  animation:floaty linear infinite;
 }
 
 /* Headline */
@@ -42,28 +51,21 @@ h1{
   box-shadow:0 0 35px #ff7eb3,0 0 60px #ff92a3;
 }
 
-/* Questions */
-#questions{display:none;margin-top:20px;}
-.question{margin:12px 0;font-size:1.2rem;display:none;padding:15px 25px;border-radius:20px;background:rgba(255,255,255,0.15);box-shadow:0 0 15px #ff7eb3;}
-.answer-btn{padding:10px 25px;margin:5px;border:none;border-radius:30px;background:rgba(255,125,180,0.7);color:#fff;cursor:pointer;box-shadow:0 0 15px #ff92a3;transition:0.3s;}
-.answer-btn:hover{transform:scale(1.05);box-shadow:0 0 30px #ff92a3;}
-
-/* Typing shayari */
-#typed{font-family:'Dancing Script',cursive;font-size:1.6rem;margin-top:20px;text-shadow:0 0 15px #ff92a3;min-height:60px;}
-
 /* Popup */
 #popup{
   display:none;position:fixed;top:50%;left:50%;
   transform:translate(-50%,-50%) scale(0);
   background:rgba(255,182,193,0.95);
-  padding:60px 80px;border-radius:30px;
+  padding:50px 60px;border-radius:30px;
   box-shadow:0 0 50px #ff7eb3,0 0 100px #ff92a3; z-index:999;
   text-align:center;overflow:hidden;
+  min-width:300px; max-width:90%;
 }
 #popup h2{
   font-family:'Dancing Script',cursive;
-  font-size:3rem;color:#fff;line-height:1.4;
+  font-size:2rem;color:#fff;line-height:1.4;
   text-shadow:0 0 25px #ff7eb3,0 0 50px #ff92a3;
+  min-height:60px;
 }
 
 /* Lights */
@@ -84,25 +86,9 @@ h1{
 <button class="neon-btn" id="startBtn">Tap to Start Your Surprise 💌</button>
 
 <audio id="valentineSong" loop style="display:none;">
-  <source src="https://files.catbox.moe/zlzuir.mp3" type="audio/mpeg">
+  <source src="https://files.catbox.moe/g38wu5.mp3" type="audio/mpeg">
 </audio>
 
-<div id="questions">
-  <div class="question" id="q1">Do you love me? 💖
-    <div>
-      <button class="answer-btn" onclick="nextQuestion(true)">Yes 😍</button>
-      <button class="answer-btn" onclick="nextQuestion(false)">No 😢</button>
-    </div>
-  </div>
-  <div class="question" id="q2">Will you be mine forever? 💞
-    <div>
-      <button class="answer-btn" onclick="nextQuestion(true)">Yes 💖</button>
-      <button class="answer-btn" onclick="nextQuestion(false)">Maybe 🌸</button>
-    </div>
-  </div>
-</div>
-
-<div id="typed"></div>
 <div id="popup"><h2 id="finalMsg"></h2></div>
 <div id="leftLight"></div>
 <div id="rightLight"></div>
@@ -112,61 +98,26 @@ h1{
 document.getElementById('startBtn').addEventListener('click', ()=>{
   document.getElementById('valentineSong').play().catch(()=>{});
   document.getElementById('startBtn').style.display='none';
-  document.getElementById('questions').style.display='block';
-  showQuestion(1);
+  showFinalPopup();
 });
 
-// Questions
-function showQuestion(num){
-  const q=document.getElementById('q'+num);
-  if(q) q.style.display='block';
+// Create random floating hearts/petals
+function createFloating(){
+  for(let i=0;i<15;i++){
+    let h=document.createElement('div');
+    h.classList.add('heart');
+    h.style.left=Math.random()*window.innerWidth+'px';
+    h.style.width=h.style.height=8+Math.random()*6+'px';
+    h.style.background=['#ff7eb3','#ff92a3','#ffc0cb'][Math.floor(Math.random()*3)];
+    h.style.animationDuration=5+Math.random()*5+'s';
+    h.style.bottom='-20px';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),10000);
+  }
 }
-function nextQuestion(isYes){
-  const btn=event.target;
-  const current=btn.closest('.question');
-  const nextId=parseInt(current.id.replace('q',''))+1;
-  current.style.display='none';
+setInterval(createFloating,1500);
 
-  if(isYes) showShayari();
-  else typeMessage('Hmm... 💌',document.getElementById('typed'));
-
-  if(document.getElementById('q'+nextId)) showQuestion(nextId);
-  else setTimeout(showFinalPopup,500);
-}
-
-// Shayari typing + eraser effect
-let shayari = ["Tum meri duniya ho 💖","Har pal tumhari yaadon mein 🌸"];
-let currentLine=0;
-function showShayari(){
-  const el=document.getElementById('typed');
-  let line=shayari[currentLine];
-  let i=0;
-  const interval=setInterval(()=>{
-    el.innerHTML+=line[i];
-    if(i%2===0){ createConfetti(); createHeartExplosion(); }
-    i++;
-    if(i>=line.length){
-      clearInterval(interval);
-      setTimeout(()=>{
-        eraseLine(el,line,showNextShayari);
-      },800);
-    }
-  },120);
-}
-function eraseLine(el,line,callback){
-  let i=line.length-1;
-  const interval=setInterval(()=>{
-    el.innerHTML=line.slice(0,i);
-    i--;
-    if(i<0){ clearInterval(interval); callback(); }
-  },80);
-}
-function showNextShayari(){
-  currentLine++;
-  if(currentLine<shayari.length) showShayari();
-}
-
-// Effects
+// Confetti + heart + sparkles
 function createConfetti(){
   const c=document.createElement('div');
   c.style.position='absolute';
@@ -196,13 +147,17 @@ function createHeartExplosion(){
   setTimeout(()=>h.remove(),1000);
 }
 
-// Final popup
+// Typing shayari + I Love You
+let shayari = ["Tum meri duniya ho 💖","Har pal tumhari yaadon mein 🌸","I Love You SARGAM JII 💖"];
+let currentLine=0;
+
 function showFinalPopup(){
   const popup=document.getElementById('popup');
   const finalMsg=document.getElementById('finalMsg');
   const leftLight=document.getElementById('leftLight');
   const rightLight=document.getElementById('rightLight');
 
+  // Lights animation
   leftLight.style.transition='1s'; rightLight.style.transition='1s';
   leftLight.style.transform='scaleX(1)'; leftLight.style.opacity='0.2';
   rightLight.style.transform='scaleX(1)'; rightLight.style.opacity='0.2';
@@ -211,15 +166,34 @@ function showFinalPopup(){
   popup.style.transition='1s';
   popup.style.transform='translate(-50%,-50%) scale(1)';
 
-  // Typing + poppers for final message
-  let msg='I Love You SARGAM JII 💖';
+  typeShayari(finalMsg);
+}
+
+function typeShayari(el){
+  if(currentLine>=shayari.length) return;
+  let line=shayari[currentLine];
   let i=0;
   const interval=setInterval(()=>{
-    finalMsg.innerHTML+=msg[i]; i++;
+    el.innerHTML+=line[i];
     if(i%2===0){ createConfetti(); createHeartExplosion(); }
-    if(i>=msg.length) clearInterval(interval);
+    i++;
+    if(i>=line.length){
+      clearInterval(interval);
+      setTimeout(()=>{
+        eraseLine(el,line,typeShayariNext);
+      },800);
+    }
   },120);
 }
+function eraseLine(el,line,callback){
+  let i=line.length-1;
+  const interval=setInterval(()=>{
+    el.innerHTML=line.slice(0,i);
+    i--;
+    if(i<0){ clearInterval(interval); callback(); }
+  },80);
+}
+function typeShayariNext(){ currentLine++; typeShayari(document.getElementById('finalMsg')); }
 </script>
 </body>
 </html>
