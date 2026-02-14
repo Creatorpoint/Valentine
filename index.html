@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -141,10 +142,17 @@ function showFinalPopup(){
   leftLight.style.transform='scaleX(1)'; leftLight.style.opacity='0.2';
   rightLight.style.transform='scaleX(1)'; rightLight.style.opacity='0.2';
 
+  // SHOW popup
   popup.style.display='block';
   popup.style.transition='1s';
   popup.style.transform='translate(-50%,-50%) scale(1)';
 
+  // **Birthday-style poppers explode instantly**
+  for(let j=0;j<100;j++){
+    setTimeout(()=>{ createConfetti(); createHeartExplosion(); }, j*30);
+  }
+
+  // Start typing shayari
   typeShayari(finalMsg,valentineMsg);
 }
 
@@ -177,11 +185,11 @@ function typeShayariNext(valentineEl){
   if(currentLine<shayari.length){
     typeShayari(document.getElementById('finalMsg'),valentineEl);
   } else {
-    // Full screen surprise poppers
+    // Full-screen final poppers after typing
     for(let j=0;j<100;j++){
       setTimeout(()=>{ createConfetti(); createHeartExplosion(); }, j*50);
     }
-    // Type Happy Valentine's Day SARGAM after typing
+    // Type Happy Valentine's Day SARGAM
     typeValentine(valentineEl,valentineText);
   }
 }
