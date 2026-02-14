@@ -48,6 +48,9 @@ h1{
 .answer-btn{padding:10px 25px;margin:5px;border:none;border-radius:30px;background:rgba(255,125,180,0.7);color:#fff;cursor:pointer;box-shadow:0 0 15px #ff92a3;transition:0.3s;}
 .answer-btn:hover{transform:scale(1.05);box-shadow:0 0 30px #ff92a3;}
 
+/* Typing shayari */
+#typed{font-family:'Dancing Script',cursive;font-size:1.6rem;margin-top:20px;text-shadow:0 0 15px #ff92a3;min-height:60px;}
+
 /* Popup */
 #popup{
   display:none;position:fixed;top:50%;left:50%;
@@ -105,7 +108,7 @@ h1{
 <div id="rightLight"></div>
 
 <script>
-// Start
+// START
 document.getElementById('startBtn').addEventListener('click', ()=>{
   document.getElementById('valentineSong').play().catch(()=>{});
   document.getElementById('startBtn').style.display='none';
@@ -124,31 +127,46 @@ function nextQuestion(isYes){
   const nextId=parseInt(current.id.replace('q',''))+1;
   current.style.display='none';
 
-  if(isYes) yesClicked();
-  else showSecret('Hmm... 💌');
+  if(isYes) showShayari();
+  else typeMessage('Hmm... 💌',document.getElementById('typed'));
 
   if(document.getElementById('q'+nextId)) showQuestion(nextId);
   else setTimeout(showFinalPopup,500);
 }
 
-// Typing
-function showSecret(msg){ typeMessage(msg,document.getElementById('typed')); }
-function typeMessage(msg,el){
-  el.innerHTML=''; let i=0;
+// Shayari typing + eraser effect
+let shayari = ["Tum meri duniya ho 💖","Har pal tumhari yaadon mein 🌸"];
+let currentLine=0;
+function showShayari(){
+  const el=document.getElementById('typed');
+  let line=shayari[currentLine];
+  let i=0;
   const interval=setInterval(()=>{
-    el.innerHTML+=msg[i]; 
-    // Trigger poppers every 2 chars
-    if(i%2===0) { createConfetti(); createHeartExplosion(); }
+    el.innerHTML+=line[i];
+    if(i%2===0){ createConfetti(); createHeartExplosion(); }
     i++;
-    if(i>=msg.length) clearInterval(interval);
+    if(i>=line.length){
+      clearInterval(interval);
+      setTimeout(()=>{
+        eraseLine(el,line,showNextShayari);
+      },800);
+    }
   },120);
+}
+function eraseLine(el,line,callback){
+  let i=line.length-1;
+  const interval=setInterval(()=>{
+    el.innerHTML=line.slice(0,i);
+    i--;
+    if(i<0){ clearInterval(interval); callback(); }
+  },80);
+}
+function showNextShayari(){
+  currentLine++;
+  if(currentLine<shayari.length) showShayari();
 }
 
 // Effects
-function yesClicked(){
-  showSecret('Yay! I love you too! ❤️');
-}
-
 function createConfetti(){
   const c=document.createElement('div');
   c.style.position='absolute';
@@ -165,7 +183,6 @@ function createConfetti(){
     else c.style.top=(top+2+Math.random()*2)+'px';
   },15);
 }
-
 function createHeartExplosion(){
   const h=document.createElement('div');
   h.style.position='absolute';
@@ -194,8 +211,14 @@ function showFinalPopup(){
   popup.style.transition='1s';
   popup.style.transform='translate(-50%,-50%) scale(1)';
 
-  // Typing + poppers already handled in typeMessage
-  typeMessage('I Love You SARGAM JII 💖', finalMsg);
+  // Typing + poppers for final message
+  let msg='I Love You SARGAM JII 💖';
+  let i=0;
+  const interval=setInterval(()=>{
+    finalMsg.innerHTML+=msg[i]; i++;
+    if(i%2===0){ createConfetti(); createHeartExplosion(); }
+    if(i>=msg.length) clearInterval(interval);
+  },120);
 }
 </script>
 </body>
