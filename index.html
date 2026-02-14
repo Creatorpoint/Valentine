@@ -53,11 +53,11 @@ h1{
   text-align:center;overflow:hidden;
   min-width:300px; max-width:90%;
 }
-#popup h2{
+#popup h2, #popup h3{
   font-family:'Dancing Script',cursive;
-  font-size:2rem;color:#fff;line-height:1.4;
+  color:#fff;line-height:1.4;
   text-shadow:0 0 25px #ff7eb3,0 0 50px #ff92a3;
-  min-height:60px;
+  margin:10px 0;
 }
 
 /* Lights */
@@ -79,7 +79,10 @@ h1{
   <source src="https://files.catbox.moe/g38wu5.mp3" type="audio/mpeg">
 </audio>
 
-<div id="popup"><h2 id="finalMsg"></h2></div>
+<div id="popup">
+  <h2 id="finalMsg"></h2>
+  <h3 id="valentineMsg"></h3>
+</div>
 <div id="leftLight"></div>
 <div id="rightLight"></div>
 
@@ -123,11 +126,13 @@ function createHeartExplosion(){
 
 // Shayari + I Love You inside popup
 let shayari = ["Tum meri duniya ho 💖","Har pal tumhari yaadon mein 🌸","I Love You SARGAM JII 💖"];
+let valentineText = "Happy Valentine's Day SARGAM 💝";
 let currentLine=0;
 
 function showFinalPopup(){
   const popup=document.getElementById('popup');
   const finalMsg=document.getElementById('finalMsg');
+  const valentineMsg=document.getElementById('valentineMsg');
   const leftLight=document.getElementById('leftLight');
   const rightLight=document.getElementById('rightLight');
 
@@ -140,10 +145,10 @@ function showFinalPopup(){
   popup.style.transition='1s';
   popup.style.transform='translate(-50%,-50%) scale(1)';
 
-  typeShayari(finalMsg);
+  typeShayari(finalMsg,valentineMsg);
 }
 
-function typeShayari(el){
+function typeShayari(el,valentineEl){
   if(currentLine>=shayari.length) return;
   let line=shayari[currentLine];
   let i=0;
@@ -154,7 +159,7 @@ function typeShayari(el){
     if(i>=line.length){
       clearInterval(interval);
       setTimeout(()=>{
-        eraseLine(el,line,typeShayariNext);
+        eraseLine(el,line,()=>typeShayariNext(valentineEl));
       },800);
     }
   },120);
@@ -167,16 +172,28 @@ function eraseLine(el,line,callback){
     if(i<0){ clearInterval(interval); callback(); }
   },80);
 }
-function typeShayariNext(){
+function typeShayariNext(valentineEl){
   currentLine++;
   if(currentLine<shayari.length){
-    typeShayari(document.getElementById('finalMsg'));
+    typeShayari(document.getElementById('finalMsg'),valentineEl);
   } else {
     // Full screen surprise poppers
     for(let j=0;j<100;j++){
       setTimeout(()=>{ createConfetti(); createHeartExplosion(); }, j*50);
     }
+    // Type Happy Valentine's Day SARGAM after typing
+    typeValentine(valentineEl,valentineText);
   }
+}
+
+function typeValentine(el,text){
+  let i=0;
+  const interval=setInterval(()=>{
+    el.innerHTML+=text[i];
+    if(i%2===0){ createConfetti(); createHeartExplosion(); }
+    i++;
+    if(i>=text.length) clearInterval(interval);
+  },120);
 }
 </script>
 </body>
