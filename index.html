@@ -17,14 +17,6 @@ body{
   overflow-x:hidden;
 }
 
-/* Floating hearts/petals */
-@keyframes floaty{0%{transform:translateY(0) rotate(0deg);}100%{transform:translateY(-600px) rotate(360deg);}}
-.heart,.petal{
-  position:absolute; width:10px;height:10px;
-  background:red; border-radius:50%;opacity:0.7;
-  animation:floaty linear infinite;
-}
-
 /* Headline */
 h1{
   font-family:'Great Vibes',cursive;
@@ -99,23 +91,7 @@ document.getElementById('startBtn').addEventListener('click', ()=>{
   showFinalPopup();
 });
 
-// Floating hearts/petals
-function createFloating(){
-  for(let i=0;i<15;i++){
-    let h=document.createElement('div');
-    h.classList.add('heart');
-    h.style.left=Math.random()*window.innerWidth+'px';
-    h.style.width=h.style.height=8+Math.random()*6+'px';
-    h.style.background=['#ff7eb3','#ff92a3','#ffc0cb'][Math.floor(Math.random()*3)];
-    h.style.animationDuration=5+Math.random()*5+'s';
-    h.style.bottom='-20px';
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),10000);
-  }
-}
-setInterval(createFloating,1500);
-
-// Confetti + heart + sparkles
+// Confetti + heart + sparkle functions
 function createConfetti(){
   const c=document.createElement('div');
   c.style.position='absolute';
@@ -138,14 +114,14 @@ function createHeartExplosion(){
   h.style.width=8+Math.random()*8+'px';
   h.style.height=h.style.width;
   h.style.background='#ff6b81';
-  h.style.left=window.innerWidth/2+(Math.random()*80-40)+'px';
-  h.style.top=window.innerHeight/2+(Math.random()*80-40)+'px';
+  h.style.left=Math.random()*window.innerWidth+'px';
+  h.style.top=Math.random()*window.innerHeight+'px';
   h.style.transform='rotate(-45deg)';
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),1000);
 }
 
-// Shayari + I Love You inside popup only
+// Shayari + I Love You inside popup
 let shayari = ["Tum meri duniya ho 💖","Har pal tumhari yaadon mein 🌸","I Love You SARGAM JII 💖"];
 let currentLine=0;
 
@@ -191,7 +167,17 @@ function eraseLine(el,line,callback){
     if(i<0){ clearInterval(interval); callback(); }
   },80);
 }
-function typeShayariNext(){ currentLine++; typeShayari(document.getElementById('finalMsg')); }
+function typeShayariNext(){
+  currentLine++;
+  if(currentLine<shayari.length){
+    typeShayari(document.getElementById('finalMsg'));
+  } else {
+    // Full screen surprise poppers
+    for(let j=0;j<100;j++){
+      setTimeout(()=>{ createConfetti(); createHeartExplosion(); }, j*50);
+    }
+  }
+}
 </script>
 </body>
 </html>
